@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView,RedirectView
 from django.shortcuts import redirect,get_object_or_404
 from .models import Post
-from django.views.generic import ListView
+from django.views.generic import ListView , DetailView
 
 def indexView(request):
 
@@ -34,13 +34,15 @@ class Redirecttomaktab(RedirectView):
         print('post')
         return super().get_redirect_url(*args, **kwargs)
 
-class PostList(ListView):
+class PostListView(ListView):
    model=Post
    #queryset=Post.objects.all()
    context_object_name="posts"
-   paginate_by=2
+   paginate_by=3
    ordering='-id'
 
 #    def get_queryset(self):
 #         posts=Post.objects.filter(status=True)
 #         return posts
+class PostDetailView(DetailView):
+    model= Post

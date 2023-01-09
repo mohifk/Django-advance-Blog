@@ -9,9 +9,12 @@
 <body>
     <h1>post list</h1>
     <div>
-    {% for post in posts%}
+    {% for post in posts %}
+    <li>
+    <a href="{% url 'blog:post-detail' pk=post.id %}">
         <h2>{{post.title}}</h2>
-        <h3>{{post.content}}</h3>
+        <h3>{{post.content}}</h3></a>
+    </li>
     {%endfor%}
     </div>
     <div class="pagination">
