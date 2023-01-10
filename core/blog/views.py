@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView,RedirectView
 from django.shortcuts import redirect,get_object_or_404
 from .models import Post
-from django.views.generic import ListView , DetailView
-
+from django.views.generic import ListView , DetailView ,FormView
+from.forms import PostForm
 def indexView(request):
 
     '''a function based view to show index page'''
@@ -46,3 +46,12 @@ class PostListView(ListView):
 #         return posts
 class PostDetailView(DetailView):
     model= Post
+
+class PostCreateView(FormView):
+    template_name = 'contact.html'
+    form_class = PostForm
+    success_url = '/blog/post/'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
