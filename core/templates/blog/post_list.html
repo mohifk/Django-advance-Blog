@@ -11,6 +11,9 @@
     <div>
     {% for post in posts %}
     <li>
+    <a href="{% url 'blog:post-edit' pk=post.id %}">
+        <h5>Edit</h5>
+    </a>
     <a href="{% url 'blog:post-detail' pk=post.id %}">
         <h2>{{post.title}}</h2>
         <h3>{{post.content}}</h3></a>
