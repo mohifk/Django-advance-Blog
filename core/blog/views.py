@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView,RedirectView
 from django.shortcuts import redirect,get_object_or_404
 from .models import Post
-from django.views.generic import ListView , DetailView ,FormView,CreateView,UpdateView
+from django.views.generic import ListView , DetailView ,FormView,CreateView,UpdateView,DeleteView
 from.forms import PostForm
 def indexView(request):
 
@@ -68,4 +68,8 @@ class PostCreateView(CreateView):
 class PostEditView(UpdateView):
     model=Post
     form_class=PostForm
+    success_url='/blog/post/'
+
+class PostDeleteView(DeleteView):
+    model=Post
     success_url='/blog/post/'
