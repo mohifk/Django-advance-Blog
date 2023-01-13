@@ -4,6 +4,7 @@ from django.shortcuts import redirect,get_object_or_404
 from .models import Post
 from django.views.generic import ListView , DetailView ,FormView,CreateView,UpdateView,DeleteView
 from.forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 def indexView(request):
 
     '''a function based view to show index page'''
@@ -34,7 +35,7 @@ class Redirecttomaktab(RedirectView):
         print('post')
         return super().get_redirect_url(*args, **kwargs)
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin,ListView):
    model=Post
    #queryset=Post.objects.all()
    context_object_name="posts"
