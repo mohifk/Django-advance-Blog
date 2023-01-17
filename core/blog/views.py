@@ -5,6 +5,10 @@ from .models import Post
 from django.views.generic import ListView , DetailView ,FormView,CreateView,UpdateView,DeleteView
 from.forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+
+
+
+
 def indexView(request):
 
     '''a function based view to show index page'''
