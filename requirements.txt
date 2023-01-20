@@ -4,5 +4,3 @@ Pillow
 djangorestframework
 markdown
 django-filter
-
-djangorestframework markdown django-filter
