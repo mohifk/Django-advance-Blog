@@ -29,6 +29,8 @@ def postList(request):
 
 """create and list of post"""
 class PostList(APIView):
+    permission_classes=[IsAuthenticated]
+    serializer_class=PostSerialilzer
     def get(self,request):
         '''retrieving a list of posts'''
         posts=Post.objects.filter(status=True)
