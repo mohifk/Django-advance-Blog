@@ -6,12 +6,13 @@ from ...models import Post
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView,ListAPIView,ListCreateAPIView
  
 
 """
 from rest_framework.decorators import api_view,permission_classes
 
-@api_view(["GET","POST"])
+@api_view(["GET","POST"]) 
 @permission_classes([IsAuthenticatedOrReadOnly])
 def postList(request):
     if request.method == "GET" :
@@ -47,13 +48,13 @@ def postDetail(request,id):
         """
 
 
-
+'''
 """create and list of post"""
 class PostList(APIView):
     permission_classes=[IsAuthenticated]
     serializer_class=PostSerialilzer
     def get(self,request):
-        '''retrieving a list of posts'''
+        """retrieving a list of posts"""
         posts=Post.objects.filter(status=True)
         serializer=PostSerialilzer(posts,many=True)
         return Response(serializer.data)
@@ -64,8 +65,12 @@ class PostList(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-
-
+'''
+class PostList(ListCreateAPIView):
+    '''geting list of post and create list '''
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    serializer_class=PostSerialilzer
+    queryset=Post.objects.filter(status=True)
 
 
 
