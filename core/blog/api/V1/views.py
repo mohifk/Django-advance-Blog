@@ -6,7 +6,7 @@ from ...models import Post
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView,ListAPIView,ListCreateAPIView
+from rest_framework.generics import GenericAPIView,ListAPIView,ListCreateAPIView,RetrieveUpdateDestroyAPIView
  
 
 """
@@ -65,16 +65,8 @@ class PostList(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-'''
-class PostList(ListCreateAPIView):
-    '''geting list of post and create list '''
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    serializer_class=PostSerialilzer
-    queryset=Post.objects.filter(status=True)
 
-
-
-"""geting detail of the post and edit plus removing it"""
+        
 class PostDetail(APIView):
     permission_classes=[IsAuthenticatedOrReadOnly]
     serializer_class=PostSerialilzer
@@ -98,4 +90,21 @@ class PostDetail(APIView):
         post=get_object_or_404(Post,pk=id)
         post.delete()
         return Response({"detail":"item removed successfully"},status=status.HTTP_204_NO_CONTENT)
+'''
+class PostList(ListCreateAPIView):
+    '''geting list of post and create list '''
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    serializer_class=PostSerialilzer
+    queryset=Post.objects.filter(status=True)
+
+
+
+"""geting detail of the post and edit plus removing it"""
+''''''
+
+class PostDetail(RetrieveUpdateDestroyAPIView):
+    """geting detail of the post and edit plus removing it"""
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    serializer_class=PostSerialilzer
+    queryset=Post.objects.filter(status=True)
     
