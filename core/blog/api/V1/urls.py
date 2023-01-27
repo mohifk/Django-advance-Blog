@@ -5,7 +5,8 @@ from rest_framework.routers import DefaultRouter
 app_name = "api_v1"
 """create automatic urls with default router based on postviewset """
 router =DefaultRouter()
-router.register('post',views.PostViewSet,basename='post')
+router.register('post',views.PostModelViewSet,basename='post')
+router.register('category',views.CategoryModelViewSet,basename='category')
 
 urlpatterns=router.urls
 # urlpatterns=[

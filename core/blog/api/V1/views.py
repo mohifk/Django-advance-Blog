@@ -1,8 +1,8 @@
 
 from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly,IsAdminUser
 from rest_framework.response import Response
-from .serializers import PostSerialilzer
-from ...models import Post
+from .serializers import PostSerialilzer,CategorySerializer
+from ...models import Post,category
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
@@ -109,28 +109,12 @@ class PostDetail(RetrieveUpdateDestroyAPIView):
     serializer_class=PostSerialilzer
     queryset=Post.objects.filter(status=True)
     
-class PostViewSet(viewsets.ViewSet):
+class PostModelViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticatedOrReadOnly]
     serializer_class=PostSerialilzer
     queryset=Post.objects.filter(status=True)
 
-    def list(self,request):
-        serializer=self.serializer_class(self.queryset,many=True)
-        return Response (serializer.data)
-
-    def retrieve(self,request,pk=None):
-        post_object=get_object_or_404(self.queryset,pk=pk)
-        serializer=self.serializer_class(post_object)
-        return Response(serializer.data)
-
-    def create(self, request):
-        pass    
-
-    def update(self, request, pk=None):
-        pass
-
-    def partial_update(self, request, pk=None):
-        pass
-
-    def destroy(self, request, pk=None):
-        pass
+class CategoryModelViewSet(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticatedOrReadOnly]
+    serializer_class=CategorySerializer
+    queryset=category.objects.all()
