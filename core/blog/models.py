@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 User=get_user_model()
 class Post(models.Model):
@@ -17,7 +18,11 @@ class Post(models.Model):
 
     def __str__(self) :
         return self.title
-
+    def get_snippet(self):
+        return self.content[0:6]
+    def get_absolute_api_url(self):
+        return reverse("blog:api_v1:post-detail", kwargs={"pk":self.pk})
+    
 class category(models.Model):
     name = models.CharField(max_length=250)
 
