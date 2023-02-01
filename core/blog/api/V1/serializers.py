@@ -23,7 +23,12 @@ class PostSerialilzer(serializers.ModelSerializer):
         return request.build_absolute_uri(obj)
         
     def to_representation(self, instance):
+        request = self.context.get('request')
         rep = super().to_representation(instance)
+        if request.parser_context.get('kwargs').get('pk'):
+            rep.pop('snippet')
+            rep.pop('relative_url')
+            rep.pop('absolute_url')
         rep['category']=CategorySerializer(instance.category).data
-        rep.pop('snippet')
+        
         return rep
