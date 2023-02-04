@@ -123,6 +123,6 @@ class PostModelViewSet(viewsets.ModelViewSet):
     pagination_class=DefultPagination
 
 class CategoryModelViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    permission_classes=[IsAuthenticatedOrReadOnly]  
     serializer_class=CategorySerializer
     queryset=category.objects.all()
