@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_simplejwt',
     'accounts',
     'blog',
     'rest_framework',
@@ -149,5 +150,7 @@ AUTH_USER_MODEL = 'accounts.User'
 REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' 
 ,'DEFAULT_AUTHNETICATION_CLASS':['rest_framework.authentication.BasicAuthentication',
 'rest_framework.authentication.SessionAuthentication',
-'rest_framework.authentication.TokenAuthentication',]
+'rest_framework.authentication.TokenAuthentication',
+'rest_framework_simplejwt.authentication.JWTAuthentication',
+]
 }
