@@ -13,6 +13,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter,OrderingFilter 
 from .paginations import DefultPagination
 
+
 """
 from rest_framework.decorators import api_view,permission_classes
 
@@ -113,7 +114,7 @@ class PostDetail(RetrieveUpdateDestroyAPIView):
     queryset=Post.objects.filter(status=True)
     
 class PostModelViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    permission_classes=[IsAuthenticated,IsOwnerOrReadOnly]
     serializer_class=PostSerialilzer
     queryset=Post.objects.filter(status=True)
     filter_backends=[DjangoFilterBackend,SearchFilter,OrderingFilter]
@@ -126,3 +127,4 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticatedOrReadOnly]  
     serializer_class=CategorySerializer
     queryset=category.objects.all()
+
