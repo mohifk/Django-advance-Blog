@@ -8,6 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from .serializers import ProfileSerializer
+from ...models import Profile
 
 User=get_user_model
 
@@ -65,3 +68,12 @@ class ChangePasswordApiView(generics.GenericAPIView):
             self.object.save()
             return Response({'datatil':'password change successfully'},status=status.HTTP_200_OK)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+class ProfileApiView(generics.RetrieveAPIView):
+    serializer_class=ProfileSerializer
+    queryset=Profile.objects.all()
+    def get_object(self):
+        queryset=self.get_queryset()
+        obj=get_object_or_404(queryset,user=self.request.user)
+        return obj
+    
