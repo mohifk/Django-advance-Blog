@@ -11,6 +11,8 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from .serializers import ProfileSerializer
 from ...models import Profile
+from django.core.mail import send_mail
+
 
 User=get_user_model
 
@@ -77,3 +79,13 @@ class ProfileApiView(generics.RetrieveAPIView):
         obj=get_object_or_404(queryset,user=self.request.user)
         return obj
     
+class TestEmailSend(generics.GenericAPIView):
+    def get(self,request,*args,**kwargs):
+        send_mail(
+            'Subject here',
+            'here is the message',
+            'from@example',
+            ['to@example'],
+            fail_silently=False,
+        )
+        return Response('email send',status=status.HTTP_200_OK)
