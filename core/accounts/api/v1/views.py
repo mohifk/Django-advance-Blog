@@ -7,6 +7,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from .serializers import ProfileSerializer
@@ -17,21 +18,12 @@ from mail_templated import EmailMessage
 from mail_templated import send_mail
 
 
-User=get_user_model
+User=get_user_model()
 
-class RegistrationApiView(generics.GenericAPIView):
-    serializer_class = RegistrationSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = RegistrationSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            data = {
-                'email':serializer.validated_data['email']
-            }
-            return Response(data,status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
+
 class CustomObtainAuthToken(ObtainAuthToken):
     serializer_class=CustomAuthTokenSerializer
     def post(self,request,*args,**kwargs):
@@ -84,6 +76,37 @@ class ProfileApiView(generics.RetrieveAPIView):
     
 class TestEmailSend(generics.GenericAPIView):
     def get(self,request,*args,**kwargs):
-        email_obj=EmailMessage('email/hello.tpl', {'name': 'mohi'},' admin@admin.com' , ['mohi.fk@gmail.com'])
+        self.email='mohi.fk@hotmail.com'
+        user_obj= get_object_or_404(User,email=self.email)
+        token=self.get_tokens_for_user(user_obj)
+        email_obj=EmailMessage('email/hello.tpl', {'token': token},'admin@admin.com' , to=[self.email])
         EmailThread(email_obj).start()
         return Response('email send',status=status.HTTP_200_OK)
+    def get_tokens_for_user(self,user):
+        refresh=RefreshToken.for_user(user)
+        return str(refresh.access_token)
+    
+class RegistrationApiView(generics.GenericAPIView):
+    serializer_class = RegistrationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = RegistrationSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            email=serializer.validated_data['email']
+            data={'email':email}
+            user_obj=get_object_or_404(User,email=email)
+            token=self.get_tokens_for_user(user_obj)
+            email_obj=EmailMessage('email/activation_email.tpl', {'token': token},'admin@admin.com' , to=[email])
+            EmailThread(email_obj).start()
+            return Response(data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def get_tokens_for_user(self,user):
+        refresh=RefreshToken.for_user(user)
+        return str(refresh.access_token)
+
+class ActivationApiView(APIView):
+    def get(self,request,token,*args,**kwargs):
+        print (token)
+        return Response(token)

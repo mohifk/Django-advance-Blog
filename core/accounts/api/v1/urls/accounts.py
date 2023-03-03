@@ -26,7 +26,7 @@ path('jwt/refresh/', TokenRefreshView.as_view(), name='jwt-refresh'),
 path('jwt/verify/', TokenVerifyView.as_view(), name='jwt-verify'),
 
 #activation 
-#path ('activation/confirm')
+path ('activation/confirm/<str:token>',views.ActivationApiView.as_view(),name='activation'),
 #resnd activation link
 #path ('activation/resend')
 #test
