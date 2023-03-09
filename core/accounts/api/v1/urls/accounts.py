@@ -12,6 +12,10 @@ app_name='api-v1'
 urlpatterns = [
 #registration
 path('registration/',views.RegistrationApiView.as_view(),name='registration'),
+#activation 
+path ('activation/confirm/<str:token>',views.ActivationApiView.as_view(),name='activation'),
+#resnd activation link
+path('activation/resend/',views.ActiveResendApiView.as_view(),name='activation_resend'),
 
 #change password
 path('change-password/',views.ChangePasswordApiView.as_view(),name='change-password'),
@@ -25,10 +29,8 @@ path('jwt/create/', views.CustomTokenObtainPairView.as_view(), name='jwt-create'
 path('jwt/refresh/', TokenRefreshView.as_view(), name='jwt-refresh'),
 path('jwt/verify/', TokenVerifyView.as_view(), name='jwt-verify'),
 
-#activation 
-path ('activation/confirm/<str:token>',views.ActivationApiView.as_view(),name='activation'),
-#resnd activation link
-#path ('activation/resend')
+
+
 #test
 path('test-email/',views.TestEmailSend.as_view(),name='test-email'),
 

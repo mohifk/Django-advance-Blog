@@ -10,13 +10,15 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer,ActivationResendSerializer
 from ...models import Profile
 from .utils import EmailThread
 from mail_templated import EmailMessage
 #from django.core.mail import send_mail
 from mail_templated import send_mail
-
+import jwt
+from django.conf import settings
+from jwt.exceptions import ExpiredSignatureError,InvalidSignatureError
 
 User=get_user_model()
 
@@ -106,7 +108,33 @@ class RegistrationApiView(generics.GenericAPIView):
         refresh=RefreshToken.for_user(user)
         return str(refresh.access_token)
 
+    
 class ActivationApiView(APIView):
     def get(self,request,token,*args,**kwargs):
-        print (token)
-        return Response(token)
+        try:
+            token=jwt.decode(token,settings.SECRET_KEY, algorithms=["HS256"])
+            user_id=token.get("user_id")
+        except ExpiredSignatureError:
+            return Response({"detail":"token has been expired"},status=status.HTTP_400_BAD_REQUEST)
+        except InvalidSignatureError :
+            return Response({"datail":"token is not valid"},status=status.HTTP_400_BAD_REQUEST)
+        user_obj=User.objects.get(pk=user_id)
+        if user_obj.is_verified:
+            return Response({"detail":"your account has already been verified"})
+        user_obj.is_verified =True
+        user_obj.save()
+        return Response({"details":"yout account have been verified and avtivated successfullt"})
+
+class ActiveResendApiView(generics.GenericAPIView):
+    serializer_class=ActivationResendSerializer
+    def post(self,request,*args,**kwargs):
+        serialzer=ActivationResendSerializer(data=request.data)
+        serialzer.is_valid(raise_exception=True)
+        user_obj= serialzer.validated_data['user']
+        token=self.get_token_for_user(user_obj)
+        email_obj=EmailMessage('email/activation_email.tpl', {'token':token},'admin@admin.com',to=[user_obj.email])
+        EmailThread(email_obj).start()
+        return Response({"detail":"user activation resend succefully"},status=status.HTTP_200_OK)
+    def get_token_for_user(self,user):
+        refresh=RefreshToken.for_user(user)
+        return str(refresh.access_token)
