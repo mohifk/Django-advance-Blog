@@ -18,3 +18,4 @@ djoser
 
 #refactoring and test clean code
 black
+flake8
