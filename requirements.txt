@@ -12,3 +12,10 @@ drf-yasg[validation]
 # email thrid party modules
 django-mail-templated
 #deployment module 
+
+#api version
+djoser
+
+#refactoring and test clean code
+black
+flake8

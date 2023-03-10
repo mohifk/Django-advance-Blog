@@ -1,16 +1,24 @@
-
-from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly,IsAdminUser
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+    IsAdminUser,
+)
 from rest_framework.response import Response
-from .serializers import PostSerialilzer,CategorySerializer
-from ...models import Post,category
+from .serializers import PostSerialilzer, CategorySerializer
+from ...models import Post, category
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView,ListAPIView,ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    GenericAPIView,
+    ListAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework import viewsets
 from .permission import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter,OrderingFilter 
+from rest_framework.filters import SearchFilter, OrderingFilter
 from .paginations import DefultPagination
 
 
@@ -96,35 +104,44 @@ class PostDetail(APIView):
         post.delete()
         return Response({"detail":"item removed successfully"},status=status.HTTP_204_NO_CONTENT)
 '''
-class PostList(ListCreateAPIView):
-    '''geting list of post and create list '''
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    serializer_class=PostSerialilzer
-    queryset=Post.objects.filter(status=True)
 
+
+class PostList(ListCreateAPIView):
+    """geting list of post and create list"""
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = PostSerialilzer
+    queryset = Post.objects.filter(status=True)
 
 
 """getting detail of the post and edit plus removing it"""
-''''''
+""""""
+
 
 class PostDetail(RetrieveUpdateDestroyAPIView):
     """getting detail of the post and edit plus removing it"""
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    serializer_class=PostSerialilzer
-    queryset=Post.objects.filter(status=True)
-    
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = PostSerialilzer
+    queryset = Post.objects.filter(status=True)
+
+
 class PostModelViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticated,IsOwnerOrReadOnly]
-    serializer_class=PostSerialilzer
-    queryset=Post.objects.filter(status=True)
-    filter_backends=[DjangoFilterBackend,SearchFilter,OrderingFilter]
-    filterset_fields={'category': ["exact","in"],'author': ["exact","in"],'status': ["exact"],}
-    search_fields=['title','content']
-    ordering_fields=['published_date']
-    pagination_class=DefultPagination
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    serializer_class = PostSerialilzer
+    queryset = Post.objects.filter(status=True)
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = {
+        "category": ["exact", "in"],
+        "author": ["exact", "in"],
+        "status": ["exact"],
+    }
+    search_fields = ["title", "content"]
+    ordering_fields = ["published_date"]
+    pagination_class = DefultPagination
+
 
 class CategoryModelViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticatedOrReadOnly]  
-    serializer_class=CategorySerializer
-    queryset=category.objects.all()
-
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = CategorySerializer
+    queryset = category.objects.all()
