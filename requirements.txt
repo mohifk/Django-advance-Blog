@@ -3,7 +3,7 @@ django >3.2,<3.3
 python-decouple
 Pillow
 djangorestframework
-
+djangorestframework-simplejwt
 # third party modules
 markdown
 django-filter
