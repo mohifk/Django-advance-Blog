@@ -12,7 +12,7 @@ urlpatterns = [
     # path('go_to_index',RedirectView.as_view(pattern_name="blog:cbv-index"),name='redirect_to_index'),
     # path('go-to-maktab/<int:pk>/',views.Redirecttomaktab.as_view(),name='redirect-to-maktab'),
     path("",views.IndexView.as_view(),name="index"),
-    path("post/", views.PostListView.as_view(), name="post_list"),
+    path("post/", views.PostListView.as_view(), name="post-list"),
     path("post/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),
     path("post/create/", views.PostCreateView.as_view(), name="post-create"),
     path("post/<int:pk>/edit/", views.PostEditView.as_view(), name="post-edit"),
