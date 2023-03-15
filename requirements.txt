@@ -21,3 +21,6 @@ black
 flake8
 pytest
 pytest-django
+
+#fake data for test
+faker
