@@ -2,4 +2,4 @@
 exclude=
     .git,.gitignore,*.pot,*.py[co],__pycache__,venv,.env,settings.py,__init__,
 ignore =
-    E501
+    E501 F401
