@@ -1,4 +1,4 @@
-name: Jekyll site CI
+name: django project test
 
 on:
   push:
@@ -8,11 +8,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Testout
-      run: |
-        True
+    - name: setup docker compose
+      run: docker compose up -d
+    - name: run tests
+      run: docker copmose exec backend sh -c "flake8 && pytest ."
+      
+        
