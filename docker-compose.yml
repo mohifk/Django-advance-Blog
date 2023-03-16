@@ -41,5 +41,14 @@ services:
     volumes:
       - ./core/locust:/mnt/locust
     command: -f /mnt/locust/locustfile.py --worker --master-host master
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+
+
 volumes:
   smtp4dev-data:
