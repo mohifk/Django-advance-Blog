@@ -16,6 +16,7 @@ django-mail-templated
 #api version
 djoser
 
+django-cors-headers
 #refactoring and test clean code
 black
 flake8
@@ -24,3 +25,4 @@ pytest-django
 
 #fake data for test
 faker
+
