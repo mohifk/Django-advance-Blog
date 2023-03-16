@@ -26,3 +26,5 @@ pytest-django
 #fake data for test
 faker
 
+celery
+redis
