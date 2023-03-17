@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 import time
-from .task import SendEmail
+from .tasks import SendEmail
 
 def send_email(request):
     SendEmail.delay()
