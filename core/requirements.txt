@@ -1,0 +1,30 @@
+# general modules
+django >3.2,<3.3
+python-decouple
+Pillow
+djangorestframework
+djangorestframework-simplejwt
+# third party modules
+markdown
+django-filter
+drf-yasg[validation]
+
+# email thrid party modules
+django-mail-templated
+#deployment module 
+
+#api version
+djoser
+
+django-cors-headers
+#refactoring and test clean code
+black
+flake8
+pytest
+pytest-django
+
+#fake data for test
+faker
+
+celery
+redis
