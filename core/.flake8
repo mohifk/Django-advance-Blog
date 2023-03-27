@@ -1,5 +1,18 @@
 [flake8]
-exclude=
-    .git,.gitignore,*.pot,*.py[co],__pycache__,venv,.env,settings.py,__init__,
+
+exclude =
+    .git,
+    .gitignore,
+    *.pot,
+    *.py[co],
+    __pycache__,
+    venv,
+    .env,
+    settings.py,
+    __init__.py,
+
 ignore =
-    E501 F401 
+    E501,
+    F401,
+    W291,
+    W293

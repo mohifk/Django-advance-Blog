@@ -33,6 +33,7 @@ ALLOWED_HOSTS = config(
 
 # Application definition
 
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -40,16 +41,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework_simplejwt",
-    "corsheaders",
     "accounts",
     "blog",
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
     "drf_yasg",
-    "djoser",
+    "rest_framework_simplejwt",
     "mail_templated",
+    "djoser",
+    "corsheaders",
     # "django_celery_beat",
 ]
 
@@ -179,11 +180,7 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = False
-
-CORS_ALLOWED_ORIGINS = [
-
-    "http://127.0.0.1:5300",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 CELERY_BROKER_URL='redis://redis:6379/1'
 
 CACHES = {
