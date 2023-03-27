@@ -1,33 +1,35 @@
-# general modules
+# general  modules
 django >3.2,<3.3
 python-decouple
 Pillow
 djangorestframework
-djangorestframework-simplejwt
+
+
 # third party modules
-markdown
-django-filter
+markdown       
+django-filter  
 drf-yasg[validation]
+djangorestframework-simplejwt
 
-# email thrid party modules
-django-mail-templated
-#deployment module 
-
-#api version
+rest_framework_simplejwt
 djoser
-
 django-cors-headers
-#refactoring and test clean code
+
+# deployment module
+gunicorn
+
+# email third party modules
+django-mail-templated
+
+# refactoring and tests
 black
 flake8
 pytest
 pytest-django
+Faker
 
-#fake data for test
-faker
-
+# background proccess and cache
 celery
 redis
-
-django-celery-beat
 django-redis
+django_celery_beat

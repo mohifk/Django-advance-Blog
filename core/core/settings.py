@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "djoser",
     "mail_templated",
-    "django_celery_beat",
+    # "django_celery_beat",
 ]
 
 

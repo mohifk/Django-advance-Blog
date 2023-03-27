@@ -1,12 +1,14 @@
-version: '3.9'
+version: "3.9"
+
 services:
   redis:
     container_name: redis
     image: redis
     restart: always
     ports:
-      - "6379:6379"
+    - "6379:6379"
     command: redis-server --save 60 1 --loglevel warning
+
   backend:
     build: .
     container_name: backend
@@ -19,7 +21,8 @@ services:
       - SECRET_KEY=test
       - DEBUG=True
     depends_on:
-    - redis
+      - redis
+  
   worker:
     build: .
     command: celery -A core worker --loglevel=info
@@ -29,23 +32,21 @@ services:
       - redis
       - backend
 
-    
-
   smtp4dev:
-    image: rnwood/smtp4dev:v3
-    restart: always
-    ports:
-      # Change the number before : to the port the web interface should be accessible on
-      - '5000:80'
-       # Change the number before : to the port the SMTP server should be accessible on
-      - '25:25'
-       # Change the number before : to the port the IMAP server should be accessible on
-      - '143:143'
-    volumes:
-      # This is where smtp4dev stores the database..
-      - smtp4dev-data:/smtp4dev
-    environment:
-      - ServerOptions__HostName=smtp4dev
+      image: rnwood/smtp4dev:v3
+      restart: always
+      ports:
+        # Change the number before : to the port the web interface should be accessible on
+        - '5000:80'
+        # Change the number before : to the port the SMTP server should be accessible on
+        - '25:25'
+        # Change the number before : to the port the IMAP server should be accessible on
+        - '143:143'
+      volumes:
+        # This is where smtp4dev stores the database..
+          - smtp4dev-data:/smtp4dev
+      environment:
+        - ServerOptions__HostName=smtp4dev
 
   master:
     image: locustio/locust
