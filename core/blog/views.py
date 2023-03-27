@@ -100,4 +100,3 @@ class PostDeleteView(DeleteView):
 
 class PostListAPIView(TemplateView):
     template_name='blog/post_list_api.html'
-    
